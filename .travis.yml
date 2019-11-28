@@ -11,12 +11,15 @@ services:
   - docker
 
 before_install:
+  # Build the dev image of the react client
   - docker build -t rthuffman/client-test -f ./client/Dockerfile.dev ./client
 
-scrpt:
-  - docker run -e CI=true USERNAME/react-test npm test
+script:
+  # Run the tests in the react client image
+  - docker run -e CI=true rthuffman/client-test npm test
 
 after_success:
+  # Build production images
   - docker build -t rthuffman/multicontainer-client ./client
   - docker build -t rthuffman/multicontainer-nginx ./nginx
   - docker build -t rthuffman/multicontainer-server ./server
