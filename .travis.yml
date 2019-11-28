@@ -29,4 +29,7 @@ after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   # Push to Docker Hub
-  - docker push rthuffman/multicontainer-client rthuffman/multicontainer-nginx rthuffman/multicontainer-server rthuffman/multicontainer-worker
+  - docker push rthuffman/multicontainer-client
+  - docker push rthuffman/multicontainer-nginx
+  - docker push rthuffman/multicontainer-server
+  - docker push rthuffman/multicontainer-worker
