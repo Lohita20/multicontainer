@@ -1,0 +1,29 @@
+# 1. Specify Docker as a dependency
+# 2. Buld test version of the React project
+# 3. Run tests (only React project has tests)
+# 4. Build prod versions of all projects
+# 5. Push all to Docker Hub
+# 6. Tell Elastic Beanstalk to update
+
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t rthuffman/client-test -f ./client/Dockerfile.dev ./client
+
+scrpt:
+  - docker run -e CI=true USERNAME/react-test npm test
+
+after_success:
+  - docker build -t rthuffman/multicontainer-client ./client
+  - docker build -t rthuffman/multicontainer-nginx ./nginx
+  - docker build -t rthuffman/multicontainer-server ./server
+  - docker build -t rthuffman/multicontainer-worker ./worker
+
+  # Log in to Docker Hub CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # Push to Docker Hub
+  - docker push rthuffman/multicontainer-client rthuffman/multicontainer-nginx rthuffman/multicontainer-server rthuffman/multicontainer-worker
