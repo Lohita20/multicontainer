@@ -1,0 +1,4 @@
+RDS instance name: multicontainer-postgres
+username: postgres
+password: postgres_password
+databasename: fibvalules

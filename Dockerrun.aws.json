@@ -1,0 +1,36 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "rthuffman/multicontainer-client",
+      "hostname": "client",
+      "esssential": false
+    },
+    {
+      "name": "server",
+      "image": "rthuffman/multicontainer-server",
+      "hostname": "api",
+      "esssential": false
+    },
+    {
+      "name": "worker",
+      "image": "rthuffman/multicontainer-worker",
+      "hostname": "worker",
+      "esssential": false
+    },
+    {
+      "name": "nginx",
+      "image": "rthuffman/multicontainer-nginx",
+      "hostname": "nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["client", "server"]
+    }
+  ]
+}
